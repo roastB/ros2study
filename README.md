@@ -8,8 +8,9 @@ ROS2의 **설치 및 설정**을 시작으로, 다양한 기능과 패키지를 
 
 ## 📂 파일 구조  
 - `README.md` : 프로젝트 및 학습 내용에 대한 설명  
-- `ros2_basic/` : ROS2 기초 학습 자료 폴더  
-- `orocar_project/` : 자율주행 프로젝트 관련 자료 폴더  
+- `ros2_basic/` : ROS2 기초 자기 주도 학습 자료  
+- `orocar_project/` : OROCA 자율주행 개인 프로젝트 관련 자료
+- `addinedu_pro/` : 애듀인에듀 심화 과정 관련 학습 자료
 
 ## 📚 학습 내용  
 

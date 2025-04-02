@@ -46,5 +46,5 @@ alias pinky="ws_setting \"pinky_ws\""
 # 7. 그외의 간단한 alias 설정
 alias dl="source ~/venv/dl_venv/bin/activate; echo \"dl_venv is activated!\""
 alias cw="cd ~/ros2_ws/"
-alias cw="cd ~/ros2_ws/src/"
+alias cs="cd ~/ros2_ws/src/"
 

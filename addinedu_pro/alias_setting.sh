@@ -5,8 +5,8 @@ alias tmp1="eval \"\$(register-python-argcomplete ros2)\""
 alias tmp2="tmp1; eval \"\$(register-python-argcomplete colcon)\""
 
 # 3. ROS 환경 변수 설정
-ID=13
-export ROS_LOCALHOST_ONLY=1 # ROS 환경에서 로컬 네트워크 내에서만 메시지를 사용하도록 설정
+ID=99
+# export ROS_LOCALHOST_ONLY=1 # ROS 환경에서 로컬 네트워크 내에서만 메시지를 사용하도록 설정
 
 # 4. 자주 사용하는 명령어 단축 (alias 설정)
 alias sb="source ~/.bashrc; echo \"Bashrc is reloaded!\"" # source bashrc 줄여서 sb
@@ -41,8 +41,10 @@ get_status()
 
 # 6. 워크스페이스 단축 호출 alias 설정
 alias ros2ws="ws_setting \"ros2_ws\""
+alias pinky="ws_setting \"pinky_ws\""
 
 # 7. 그외의 간단한 alias 설정
 alias dl="source ~/venv/dl_venv/bin/activate; echo \"dl_venv is activated!\""
 alias cw="cd ~/ros2_ws/"
-alias cs="cd ~/ros2_ws/src/"
+alias cw="cd ~/ros2_ws/src/"
+

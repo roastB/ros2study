@@ -5,7 +5,7 @@ from datetime import datetime
 
 # 로고 삽입 함수
 def add_logo(qr_img, logo_path):
-    logo = Image.open(logo_path)
+    logo = Image.open(logo_path).convert("RGBA")
     qr_width, qr_height = qr_img.size
 
     factor = 4
@@ -13,10 +13,16 @@ def add_logo(qr_img, logo_path):
     size_h = int(qr_height / factor)
     logo = logo.resize((size_w, size_h), Image.LANCZOS)
 
+    # 흰색 박스 먼저 그리기 (중앙 위치)
     pos = ((qr_width - size_w) // 2, (qr_height - size_h) // 2)
-    qr_img.paste(logo, pos, mask=logo.convert('RGBA'))
+    white_box = Image.new("RGB", (size_w, size_h), "white")
+    qr_img.paste(white_box, pos)
+
+    # 그 위에 로고 삽입
+    qr_img.paste(logo, pos, mask=logo)
 
     return qr_img
+
 
 # 날짜 기반 파일명 생성 함수
 def generate_unique_filename(base_name="qrcode", ext=".png", save_dir=Path(".")):
@@ -50,7 +56,7 @@ qr.make(fit=True)
 img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
 
 # 로고 삽입
-logo_path = "/home/addineud/Downloads/logo.png"
+logo_path = "/home/jetcobot/Downloads/sandwich.png"
 
 if Path(logo_path).is_file():
     img = add_logo(img, logo_path)

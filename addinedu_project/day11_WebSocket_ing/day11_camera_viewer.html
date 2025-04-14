@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📡 실시간 카메라 스트리밍</title>
+    <style>
+        #camera-feed {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>📡 실시간 카메라 스트리밍</h1>
+    <img id="camera-feed" alt="카메라 스트리밍" />
+    <script>
+        const socket = new WebSocket("ws://192.168.0.167:8766");
+
+        socket.onopen = () => {
+            console.log("✅ WebSocket 서버에 연결되었습니다.");
+        };
+
+        socket.onmessage = (event) => {
+            const image = event.data;
+            document.getElementById('camera-feed').src = "data:image/jpeg;base64," + image;
+        };
+
+        socket.onerror = (error) => {
+            console.error("WebSocket 오류:", error);
+        };
+
+        socket.onclose = () => {
+            console.log("WebSocket 연결이 종료되었습니다.");
+        };
+    </script>
+</body>
+</html>

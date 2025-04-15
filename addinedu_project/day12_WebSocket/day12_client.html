@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JetCobot 실시간 영상</title>
+  <style>
+    #videoFeed {
+      width: 1080px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h2>📷 JetCobot 카메라 실시간 영상</h2>
+  <img id="videoFeed" />
+
+  <script>
+    const socket = new WebSocket('ws://192.168.0.167:8765');  // Raspberry Pi IP 주소
+    const img = document.getElementById('videoFeed');
+
+    socket.onmessage = function(event) {
+      img.src = 'data:image/jpeg;base64,' + event.data;
+    };
+
+    socket.onopen = () => console.log('✅ 연결 성공!');
+    socket.onerror = (e) => console.error('❌ 오류:', e);
+    socket.onclose = () => console.log('🔌 연결 종료됨');
+  </script>
+</body>
+</html>

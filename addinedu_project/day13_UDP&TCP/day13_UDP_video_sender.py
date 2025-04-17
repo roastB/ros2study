@@ -1,33 +1,31 @@
 import cv2
-import numpy as np
 import socket
+import time
 
-UDP_IP = "0.0.0.0"
-UDP_PORT = 12345
+UDP_IP = "192.168.5.8"  # 👈 수신자 PC의 IP 주소
+UDP_PORT = 12345        # 1024~65535 사이 PORT 개인 설정(0~1023은 시스템 예약 포트)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
+cap = cv2.VideoCapture('/dev/jetcocam0')  # Jetson 카메라 경로
+print("📤 Start sending frames over UDP...")
 
-print("📥 Listening for UDP packets...")
+if not cap.isOpened():
+    print("❌ Failed to open camera.")
+    exit()
 
-buffer = b''
 while True:
-    data, _ = sock.recvfrom(65507) # 65507=64KB. UDP 최대 데이터 수신 크기
-    buffer += data
+    ret, frame = cap.read()
+    if not ret:
+        continue
 
-    # 이미지 끝을 추정 (간단히 10KB 이상일 경우 처리)
-    if len(buffer) > 10000:
-        try:
-            jpg = np.frombuffer(buffer, dtype=np.uint8)
-            frame = cv2.imdecode(jpg, cv2.IMREAD_COLOR)
+    # 크기 줄이기 (UDP 최대 패킷 제한 고려)
+    frame = cv2.resize(frame, (640, 360))
+    _, buffer = cv2.imencode('.jpg', frame)
 
-            if frame is not None:
-                cv2.imshow("UDP Video Stream", frame)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-        except Exception as e:
-            print("⚠️ Error decoding frame:", e)
-        buffer = b''
-
-sock.close()
-cv2.destroyAllWindows()
+    # UDP는 최대 65507 바이트 제한이 있어 나눠서 보내야 함
+    data = buffer.tobytes()
+    
+    for i in range(0, len(data), 60000):
+        chunk = data[i:i+60000]
+        sock.sendto(chunk, (UDP_IP, UDP_PORT))
+    time.sleep(1/30)

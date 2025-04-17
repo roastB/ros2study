@@ -1,33 +1,62 @@
+import asyncio
+import websockets
 import cv2
-import numpy as np
-import socket
+import base64
 
-UDP_IP = "0.0.0.0"
-UDP_PORT = 12345
+connected_clients = set()
+current_frame = None
+frame_lock = asyncio.Lock()
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
+# ✅ 싱글 프로듀서 : 카메라 프레임을 계속 생성해서 공유 변수에 저장
+async def frame_producer():
+    global current_frame
+    cap = cv2.VideoCapture('/dev/jetcocam0')
 
-print("📥 Listening for UDP packets...")
+    if not cap.isOpened():
+        print("⚠️[ERROR] 카메라를 열 수 없습니다.")
+        return
 
-buffer = b''
-while True:
-    data, _ = sock.recvfrom(65507) # 65507=64KB. UDP 최대 데이터 수신 크기
-    buffer += data
+    print("🟦[INFO] 프레임 생성 시작")
 
-    # 이미지 끝을 추정 (간단히 10KB 이상일 경우 처리)
-    if len(buffer) > 10000:
-        try:
-            jpg = np.frombuffer(buffer, dtype=np.uint8)
-            frame = cv2.imdecode(jpg, cv2.IMREAD_COLOR)
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            continue
 
-            if frame is not None:
-                cv2.imshow("UDP Video Stream", frame)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-        except Exception as e:
-            print("⚠️ Error decoding frame:", e)
-        buffer = b''
+        _, buffer = cv2.imencode('.jpg', frame)
+        jpg_as_text = base64.b64encode(buffer).decode('utf-8')
 
-sock.close()
-cv2.destroyAllWindows()
+        async with frame_lock:
+            current_frame = jpg_as_text
+
+        await asyncio.sleep(1/30)  # 약 30fps
+
+# ✅ 멀티 컨슈머 : 클라이언트에게 현재 프레임을 계속 전송
+async def send_frames(websocket):
+    print("🟩[INFO] 클라이언트 연결")
+    connected_clients.add(websocket)
+
+    try:
+        while True:
+            async with frame_lock:
+                if current_frame:
+                    await websocket.send(current_frame)
+            await asyncio.sleep(1/30)
+    except websockets.exceptions.ConnectionClosed:
+        print("🟥[INFO] 클라이언트 연결 종료")
+    finally:
+        connected_clients.remove(websocket)
+
+# ✅ 메인 서버 실행부
+async def main():
+    print("🛜[INFO] WebSocket 서버 시작됨 (port 8765)")
+    server = await websockets.serve(send_frames, "0.0.0.0", 8765) # 1024~65535 사이 PORT 개인 설정(0~1023은 시스템 예약 포트)
+
+    # 프레임 생성은 별도의 Task로 실행
+    await frame_producer()
+
+    # WebSocket 서버 무한 대기
+    await server.wait_closed()
+
+asyncio.run(main())
+

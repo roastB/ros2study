@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket 카메라 스트리밍</title>
+</head>
+<body>
+  <h2>📡 실시간 영상 스트리밍</h2>
+  <img id="video" width="640" height="480" />
+  <script>
+    const ws = new WebSocket("ws://192.168.0.167:8765");  // ← 서버 IP로 바꿔줘!
+
+    ws.onopen = () => {
+      console.log("✅ WebSocket 연결 성공");
+    };
+
+    ws.onmessage = (event) => {
+      const imgData = event.data;
+      console.log("📷 프레임 수신됨, 길이:", imgData.length);
+      document.getElementById('video').src = "data:image/jpeg;base64," + imgData;
+    };
+
+    ws.onclose = () => {
+      console.log("❌ WebSocket 연결 종료");
+    };
+
+    ws.onerror = (error) => {
+      console.error("⚠️ WebSocket 에러:", error);
+    };
+  </script>
+</body>
+</html>

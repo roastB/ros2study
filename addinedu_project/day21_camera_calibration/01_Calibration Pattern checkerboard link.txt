@@ -1,0 +1,5 @@
+[OpenCV Calibration Pattern]
+https://github.com/opencv/opencv/blob/master/doc/pattern.png
+
+[calib.io : 직접 커스텀 가능]
+https://calib.io/pages/camera-calibration-pattern-generator

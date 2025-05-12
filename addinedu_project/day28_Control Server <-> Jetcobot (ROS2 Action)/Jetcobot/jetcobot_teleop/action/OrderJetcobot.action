@@ -1,0 +1,10 @@
+# goal definition
+string order_id
+
+---
+# result definition
+string status
+
+---
+# feedback definition
+string progress

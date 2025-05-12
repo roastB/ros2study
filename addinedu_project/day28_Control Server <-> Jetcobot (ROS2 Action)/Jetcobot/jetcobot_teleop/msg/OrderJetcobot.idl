@@ -1,0 +1,5 @@
+module jetcobot_teleop {
+  struct OrderJetcobot {
+    string order;
+  };
+};

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>jetcobot_teleop</name>
+  <version>0.0.0</version>
+  <description>Teleoperation package for JetCobot</description>
+  <maintainer email="jetcobot@todo.todo">jetcobot</maintainer>
+  <license>MIT</license>
+
+  <!-- Build tools -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+
+  <!-- Build dependencies -->
+  <build_depend>action_msgs</build_depend>
+  <build_depend>rosidl_default_generators</build_depend>
+  <build_depend>rosidl_default_runtime</build_depend>
+
+  <!-- Execution dependencies -->
+  <exec_depend>action_msgs</exec_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

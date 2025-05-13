@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>serboway_control_server</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="iceative12@gmail.com">addineud</maintainer>
+  <license>TODO: License declaration</license>
+
+  <!-- 추가된 의존성 -->
+  <depend>actionlib</depend>
+  <depend>rclpy</depend>   <!-- rclpy 의존성 추가 -->
+  <depend>action_msgs</depend>  <!-- action_msgs 의존성 추가 -->
+  <depend>jetcobot_interfaces</depend>  <!-- jetcobot_interfaces 의존성 추가 -->
+  <exec_depend>rosidl_default_runtime</exec_depend>  <!-- rosidl_default_runtime 의존성 추가 -->
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -1,0 +1,10 @@
+# Goal 정의 (요청할 데이터)
+string order
+
+---
+# Result 정의 (서버에서 반환할 데이터)
+string status
+
+---
+# Feedback 정의 (옵션, 서버 진행 상태 등의 데이터)
+int32 progress

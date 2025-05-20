@@ -1,0 +1,2 @@
+int32 id
+string order_completed

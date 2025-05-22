@@ -1,0 +1,5 @@
+# MakerStatus.srv (my_msgs 패키지)
+
+---
+bool is_idle  # 대기중인지 여부
+

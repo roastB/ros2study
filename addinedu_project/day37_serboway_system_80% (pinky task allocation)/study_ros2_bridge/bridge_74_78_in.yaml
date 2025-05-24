@@ -1,0 +1,10 @@
+name: bridge_74_78_in
+from_domain: 74
+to_domain:   78
+topics:
+  /pinky_command:
+    type: std_msgs/msg/Int32
+    bidirectional: false
+  /pinky_task:
+    type: std_msgs/msg/Int32
+    bidirectional: false

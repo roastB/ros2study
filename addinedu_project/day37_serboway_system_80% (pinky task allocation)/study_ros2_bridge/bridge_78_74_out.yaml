@@ -1,0 +1,33 @@
+name: bridge_78_74_out
+from_domain: 78
+to_domain:   74
+topics:
+  /pinky_status:
+    type: std_msgs/msg/Int32
+    bidirectional: false
+  /pinky_status2:
+    type: std_msgs/msg/Int32
+    bidirectional: false
+  /pinky_status3:
+    type: std_msgs/msg/Int32
+    bidirectional: false
+
+  /pinky_dist:
+    type: std_msgs/msg/Float32
+    bidirectional: false
+  /pinky_dist2:
+    type: std_msgs/msg/Float32
+    bidirectional: false
+  /pinky_dist3:
+    type: std_msgs/msg/Float32
+    bidirectional: false
+
+  /pinky_arrive:
+    type: std_msgs/msg/Bool
+    bidirectional: false
+  /pinky_arrive2:
+    type: std_msgs/msg/Bool
+    bidirectional: false
+  /pinky_arrive3:
+    type: std_msgs/msg/Bool
+    bidirectional: false

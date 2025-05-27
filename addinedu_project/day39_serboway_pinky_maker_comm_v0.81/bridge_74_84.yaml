@@ -1,0 +1,24 @@
+name: bridge_74_84
+from_domain: 74
+to_domain: 84
+topics:
+  # 74 → 84
+  /main_maker:
+    type: your_package_name/msg/OrderInformation
+    bidirectional: true
+  /main_handle:
+    type: your_package_name/msg/CompleteOrder
+    bidirectional: true
+  # 84 → 74
+  /maker_status:
+    type: std_msgs/msg/Bool
+    bidirectional: true
+  /complete_main:
+    type: your_package_name/msg/CompleteOrder
+    bidirectional: true
+  /maker_main:
+    type: your_package_name/msg/OrderInformation
+    bidirectional: true
+  /maker_handle:
+    type: your_package_name/msg/CompleteOrder
+    bidirectional: true

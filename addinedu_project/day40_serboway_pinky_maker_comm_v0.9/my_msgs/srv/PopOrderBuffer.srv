@@ -1,0 +1,9 @@
+# my_msgs/srv/PopOrderBuffer.srv
+
+# Request (요청)
+# 요청없음
+---
+# Response (응답)
+bool success             # 제거 성공 여부
+string message           # 상태 메시지
+int32 remaining_orders   # 남은 주문 수

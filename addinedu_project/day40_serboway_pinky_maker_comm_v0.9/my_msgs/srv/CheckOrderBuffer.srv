@@ -1,0 +1,9 @@
+# CheckOrderBuffer.srv (my_msgs 패키지)
+
+# --- 요청 (Request) ---
+# 요청없음
+---
+
+# --- 응답 (Response) ---
+int32 order_count
+bool is_collectable

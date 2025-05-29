@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pickup Button</title>
+</head>
+<body>
+  <button onclick="sendPickup()">주문 수거 완료</button>
+
+  <script>
+    function sendPickup() {
+      fetch('http://192.168.0.178:5003/pickup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pressed: true })
+      })
+      .then(response => response.json())
+      .then(data => console.log('Success:', data))
+      .catch((error) => console.error('Error:', error));
+    }
+  </script>
+</body>
+</html>
